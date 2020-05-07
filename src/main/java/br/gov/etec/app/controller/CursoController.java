@@ -19,6 +19,15 @@ public class CursoController {
 	@Autowired
 	CursoReposity repository;
 	
+	
+	@GetMapping
+	@RequestMapping("/")
+	public String inicio() {
+		return "";
+	}
+	
+	
+	
 	@PostMapping
 	@RequestMapping("/cadastrar")
 	public void cadastrarCurso(@RequestBody CursoDto cursoDto){
