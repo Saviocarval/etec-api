@@ -23,7 +23,7 @@ public class CursoController {
 	@GetMapping
 	@RequestMapping("/")
 	public String inicio() {
-		return "";
+		return "Rota não encontrada";
 	}
 	
 	
