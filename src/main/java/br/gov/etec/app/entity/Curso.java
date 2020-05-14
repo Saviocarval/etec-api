@@ -19,9 +19,7 @@ public class Curso {
 	private String nome;
 	@Column
 	private String descricao;
-	
-	
-	
+		
 	public Curso() {
 		
 	}
@@ -52,5 +50,4 @@ public class Curso {
 		this.descricao = descricao;
 	}
 	
-
 }
