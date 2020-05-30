@@ -2,6 +2,15 @@ package br.gov.etec.app.dtos;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.gov.etec.app.entity.Aluno;
+
+@SuppressWarnings("deprecation")
 public class AlunoDto implements Serializable {
 
 	/**
@@ -9,16 +18,24 @@ public class AlunoDto implements Serializable {
 	 */
 	private static final long serialVersionUID = 6310666307879291066L;
 	
+	@NotBlank
 	private String nome;
+	@NotBlank
 	private String rg;
+	@NotBlank
 	private String cpf;
+	@NotBlank
+	@Email
 	private String email;
+	@NotNull
 	private Date data_nasc;
+	@NotNull
 	private long id_curso;
+	@NotBlank
+	private String senha;
 	
 	
 	public AlunoDto() {}
-	
 	
 
 	public String getNome() {
@@ -66,20 +83,21 @@ public class AlunoDto implements Serializable {
 		return data_nasc;
 	}
 
-
-
 	public void setData_nasc(Date data_nasc) {
 		this.data_nasc = data_nasc;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "AlunoDto [nome=" + nome + ", rg=" + rg + ", cpf=" + cpf + ", email=" + email + ", id_curso=" + id_curso
-				+ ", data_nasc=" + data_nasc + "]";
+	public String getSenha() {
+		return senha;
 	}
 
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Aluno transformaAlunoDto() {
+		return new Aluno(nome,rg,cpf,email,data_nasc,id_curso,senha);
+	}
 		
 
 }

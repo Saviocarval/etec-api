@@ -24,12 +24,13 @@ public class Curso {
 		
 	}
 
-	public Curso(long id, String nome, String descricao) {
+	public Curso(String nome, String descricao) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 	}
+	
+	
 	
 	public long getId() {
 		return id;
@@ -37,12 +38,14 @@ public class Curso {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	public String getDescricao() {
 		return descricao;
 	}

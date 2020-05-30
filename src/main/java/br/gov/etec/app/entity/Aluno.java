@@ -20,7 +20,7 @@ public class Aluno {
 	private String nome;
 	@Column
 	private String rg;
-	@Column
+	@Column(unique = true)
 	private String cpf;
 	@Column
 	private String email;
@@ -28,12 +28,29 @@ public class Aluno {
 	private Date data_nasc;
 	@Column
 	private long id_curso;
+	@Column
+	private String senha;
 		
 	
 	public Aluno() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 		
+	public Aluno(String nome, String rg, String cpf, String email, Date data_nasc, long id_curso, String senha) {
+		super();
+		this.nome = nome;
+		this.rg = rg;
+		this.cpf = cpf;
+		this.email = email;
+		this.data_nasc = data_nasc;
+		this.id_curso = id_curso;
+		this.senha = senha;
+	}
+
+
+
 	public long getId() {
 		return id;
 	}
@@ -65,8 +82,6 @@ public class Aluno {
 		this.email = email;
 	}
 	
-	
-
 	public Date getData_nasc() {
 		return data_nasc;
 	}
@@ -82,5 +97,22 @@ public class Aluno {
 	public void setId_curso(long id_curso) {
 		this.id_curso = id_curso;
 	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Aluno: id=" + id + ", nome=" + nome + ", rg=" + rg + ", cpf=" + cpf + ", email=" + email+ ", data_nasc=" + data_nasc + ",";
+	}
+	
+	
 	
 }
