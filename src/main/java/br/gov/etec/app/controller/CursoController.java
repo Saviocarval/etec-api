@@ -15,7 +15,7 @@ import br.gov.etec.app.entity.Curso;
 import br.gov.etec.app.services.CursoService;
 
 @RestController
-@RequestMapping("/curso/api")
+@RequestMapping("/api/curso")
 public class CursoController {
 	
 	@Autowired

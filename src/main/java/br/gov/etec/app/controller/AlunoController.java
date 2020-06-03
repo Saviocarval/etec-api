@@ -1,5 +1,6 @@
 package br.gov.etec.app.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,7 +18,7 @@ import br.gov.etec.app.entity.Aluno;
 import br.gov.etec.app.services.AlunoService;
 
 @RestController
-@RequestMapping("/aluno/api")
+@RequestMapping("/api/aluno")
 public class AlunoController {
 	
 		
@@ -30,7 +31,7 @@ public class AlunoController {
 	}
 		
 	@PostMapping()
-	public ResponseEntity<AlunoDto> cadAluno(@RequestBody @Valid AlunoDto alunoDto) {
+	public ResponseEntity<LinkedHashMap<String,Object>> cadAluno(@RequestBody @Valid AlunoDto alunoDto) {
 		return service.incluirAluno(alunoDto);			 
 	}
 	

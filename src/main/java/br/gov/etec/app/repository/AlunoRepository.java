@@ -11,4 +11,5 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 	@Query(value = "select * from aluno where cpf = :cpf", nativeQuery = true)
 	Aluno findByCpf(@Param("cpf") String cpf);
 	
+	
 }
