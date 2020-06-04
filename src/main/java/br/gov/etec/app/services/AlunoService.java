@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service;
 
 import br.gov.etec.app.dtos.AlunoDto;
 import br.gov.etec.app.entity.Aluno;
+import br.gov.etec.app.entity.Curso;
 import br.gov.etec.app.repository.AlunoRepository;
+import br.gov.etec.app.repository.CursoReposity;
 
 @Service
 public class AlunoService {
 	@Autowired
 	AlunoRepository repository;
+	@Autowired
+	CursoReposity repositoryCurso;
 	
 	public ResponseEntity<List<Aluno>> listarAlunos(){
 		List<Aluno> aluno = new ArrayList<>();
@@ -30,8 +34,9 @@ public class AlunoService {
 	public ResponseEntity<LinkedHashMap<String, Object>> incluirAluno(AlunoDto alunoDto){
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String senha = passwordEncoder.encode(alunoDto.getSenha());
-		alunoDto.setSenha(senha);		
-		Aluno aluno = repository.save(alunoDto.transformaAlunoDto());
+		alunoDto.setSenha(senha);
+		Curso curso = repositoryCurso.findById(alunoDto.getId_curso());
+		Aluno aluno = repository.save(alunoDto.transformaAlunoDto(curso));
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 		
 		map.put("messeger", "Aluno criado com sucesso!");
@@ -41,8 +46,9 @@ public class AlunoService {
 		map.put("CPF",aluno.getCpf());
 		map.put("Email",aluno.getEmail());
 		map.put("Data_Nascimento",aluno.getData_nasc());
-		map.put("Id_curso",aluno.getId_curso());
 		
+		System.out.println(aluno.getCurso().getNome());
+				
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 			

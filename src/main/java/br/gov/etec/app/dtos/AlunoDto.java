@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.gov.etec.app.entity.Aluno;
+import br.gov.etec.app.entity.Curso;
 
 @SuppressWarnings("deprecation")
 public class AlunoDto implements Serializable {
@@ -95,8 +96,8 @@ public class AlunoDto implements Serializable {
 		this.senha = senha;
 	}
 
-	public Aluno transformaAlunoDto() {
-		return new Aluno(nome,rg,cpf,email,data_nasc,id_curso,senha);
+	public Aluno transformaAlunoDto(Curso curso) {
+		return new Aluno(nome,rg,cpf,email,data_nasc,id_curso,senha,curso);
 	}
 		
 

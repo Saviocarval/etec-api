@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="aluno")
+@Table(name="tb_aluno")
 public class Aluno {
 	
 	@Id
@@ -27,9 +29,10 @@ public class Aluno {
 	@Column
 	private Date data_nasc;
 	@Column
-	private long id_curso;
-	@Column
 	private String senha;
+	@ManyToOne
+	@JoinColumn(name = "curso",referencedColumnName = "id",nullable = false)
+	private Curso curso;
 		
 	
 	public Aluno() {
@@ -37,18 +40,17 @@ public class Aluno {
 	}
 	
 	
-		
-	public Aluno(String nome, String rg, String cpf, String email, Date data_nasc, long id_curso, String senha) {
+	public Aluno(String nome, String rg, String cpf, String email, Date data_nasc, long id_curso, String senha,
+			Curso curso) {
 		super();
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
 		this.email = email;
 		this.data_nasc = data_nasc;
-		this.id_curso = id_curso;
 		this.senha = senha;
+		this.curso = curso;
 	}
-
 
 
 	public long getId() {
@@ -90,14 +92,6 @@ public class Aluno {
 		this.data_nasc = data_nasc;
 	}
 
-	public long getId_curso() {
-		return id_curso;
-	}
-
-	public void setId_curso(long id_curso) {
-		this.id_curso = id_curso;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -106,6 +100,15 @@ public class Aluno {
 		this.senha = senha;
 	}
 
+	
+	public Curso getCurso() {
+		return curso;
+	}
+
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
 
 
 	@Override
