@@ -47,8 +47,7 @@ public class AlunoService {
 		map.put("Email",aluno.getEmail());
 		map.put("Data_Nascimento",aluno.getData_nasc());
 		
-		System.out.println(aluno.getCurso().getNome());
-				
+		repository.flush();				
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 			

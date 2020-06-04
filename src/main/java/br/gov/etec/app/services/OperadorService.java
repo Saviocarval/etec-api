@@ -60,6 +60,7 @@ public class OperadorService {
 		}
 		LinkedHashMap<String, String> map = new LinkedHashMap<>();
 		map.put("messeger", "Not found. Operador não localizado");
+		repository.flush();
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
 	}
 

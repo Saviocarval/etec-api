@@ -19,11 +19,13 @@ public class CursoService {
 	
 	public ResponseEntity<List<Curso>> listarCursos(){
 		List<Curso> curso = repository.findAll();
+		repository.flush();
 		return ResponseEntity.status(HttpStatus.OK).body(curso);
 	}
 	
 	public ResponseEntity<CursoDto> incluirCurso(CursoDto cursoDto){
 		repository.save(cursoDto.transformaCursoDto());
+		repository.flush();
 		return ResponseEntity.status(HttpStatus.OK).body(cursoDto);
 	}
 
