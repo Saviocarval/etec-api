@@ -59,19 +59,22 @@ public class OperadorService {
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 	}
 	
-	public ResponseEntity<LinkedHashMap<String, String>> loginOperadores(OperadorDto operadorDto) {
+	public ResponseEntity<LinkedHashMap<String, Object>> loginOperadores(OperadorDto operadorDto) {
 		Operador operador = repository.findByEmail(operadorDto.getEmail());
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+		
 		if(operador != null) {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			if(passwordEncoder.matches(operadorDto.getSenha(), operador.getSenha())) {
+				map.put("menseger", true);
 				return ResponseEntity.status(HttpStatus.OK).build();
 			}
-			LinkedHashMap<String, String> map = new LinkedHashMap<>();
-			map.put("messeger", "Unauthorized. A senha está incorreta");
+			
+			map.put("messeger", false);
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
 			
 		}
-		LinkedHashMap<String, String> map = new LinkedHashMap<>();
+		
 		map.put("messeger", "Not found. Operador não localizado");
 		repository.flush();
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);

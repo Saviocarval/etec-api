@@ -34,7 +34,7 @@ public class OperadorController {
 	}
 	
 	@PostMapping(value = "/login")
-	public ResponseEntity<LinkedHashMap<String, String>> logar(@RequestBody OperadorDto operadorDto){
+	public ResponseEntity<LinkedHashMap<String, Object>> logar(@RequestBody OperadorDto operadorDto){
 		return service.loginOperadores(operadorDto);
 	}
 	
