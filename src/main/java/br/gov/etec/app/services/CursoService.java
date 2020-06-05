@@ -15,7 +15,7 @@ import br.gov.etec.app.repository.CursoReposity;
 public class CursoService {
 	
 	@Autowired
-	CursoReposity repository;
+	private CursoReposity repository;
 	
 	public ResponseEntity<List<Curso>> listarCursos(){
 		List<Curso> curso = repository.findAll();

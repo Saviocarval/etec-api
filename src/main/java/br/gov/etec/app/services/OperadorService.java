@@ -17,13 +17,24 @@ import br.gov.etec.app.repository.OperadorRepository;
 @Service
 public class OperadorService {
 	@Autowired
-	OperadorRepository repository;
+	private OperadorRepository repository;
 	
-	public ResponseEntity<List<Operador>> listarOperadores(){
+	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarOperadores(){
 		List<Operador> operador = new ArrayList<>();
 		operador = repository.findAll();
 		
-		return ResponseEntity.ok(operador);		
+		List<LinkedHashMap<String, Object>> listaOperadores = new ArrayList<>();
+		LinkedHashMap<String, Object> op = new LinkedHashMap<>();
+		
+		for (Operador operador2 : operador) {
+			op.put("id", operador2.getId());
+			op.put("nome", operador2.getNome());
+			op.put("email", operador2.getEmail());
+			op.put("matricula", operador2.getMatricula());
+			listaOperadores.add(op);
+		}
+		repository.flush();
+		return ResponseEntity.ok(listaOperadores);		
 	}
 	
 	public ResponseEntity<LinkedHashMap<String, Object>> listarOperadores(OperadorDto operadorDto){
@@ -35,13 +46,15 @@ public class OperadorService {
 		
 		Operador operador = repository.save(operadorDto.tranformaLoginOperadorDto());
 		
-		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-		
+		//Criando resposta de return
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>();		
 		map.put("Messeger", "Operador criado com sucesso!");
 		map.put("Id", operador.getId());
 		map.put("Nome", operador.getNome());
 		map.put("Email", operador.getEmail());
 		map.put("Matricula", operador.getMatricula());
+		
+		repository.flush();
 				
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 	}

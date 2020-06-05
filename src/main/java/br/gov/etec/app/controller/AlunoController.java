@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.etec.app.dtos.AlunoDto;
-import br.gov.etec.app.entity.Aluno;
 import br.gov.etec.app.services.AlunoService;
 
 @RestController
@@ -26,7 +25,7 @@ public class AlunoController {
 	AlunoService service;
 	
 	@GetMapping()
-	public ResponseEntity<List<Aluno>> listaAlunos(){
+	public ResponseEntity<List<LinkedHashMap<String, Object>>> listaAlunos(){
 		return service.listarAlunos();
 	}
 		

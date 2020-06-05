@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.etec.app.dtos.OperadorDto;
-import br.gov.etec.app.entity.Operador;
 import br.gov.etec.app.services.OperadorService;
 
 @RestController
@@ -25,7 +24,7 @@ public class OperadorController {
 	OperadorService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Operador>> listarOperadores(){
+	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarOperadores(){
 		return service.listarOperadores();
 	}
 	

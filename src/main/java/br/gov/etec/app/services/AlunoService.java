@@ -20,15 +20,27 @@ import br.gov.etec.app.repository.CursoReposity;
 @Service
 public class AlunoService {
 	@Autowired
-	AlunoRepository repository;
+	private AlunoRepository repository;
 	@Autowired
-	CursoReposity repositoryCurso;
+	private CursoReposity repositoryCurso;
 	
-	public ResponseEntity<List<Aluno>> listarAlunos(){
+	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarAlunos(){
 		List<Aluno> aluno = new ArrayList<>();
 		aluno = repository.findAll();
+		List<LinkedHashMap<String, Object>> listaAlunos = new ArrayList<>();
+		LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+		for (Aluno aluno2 : aluno) {
+			al.put("id", aluno2.getId());
+			al.put("nome", aluno2.getNome());
+			al.put("rg", aluno2.getRg());
+			al.put("cpf", aluno2.getCpf());
+			al.put("email", aluno2.getEmail());
+			al.put("data_nasc", aluno2.getData_nasc());
+			al.put("curso", aluno2.getCurso().getNome());
+			listaAlunos.add(al);			
+		}
 		repository.flush();
-		return ResponseEntity.ok(aluno);
+		return ResponseEntity.ok(listaAlunos);
 	}
 	
 	public ResponseEntity<LinkedHashMap<String, Object>> incluirAluno(AlunoDto alunoDto){
