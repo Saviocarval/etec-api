@@ -29,7 +29,7 @@ public class OperadorController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<LinkedHashMap<String, Object>> listarOperadores(@RequestBody @Valid OperadorDto operadorDto){
+	public ResponseEntity<LinkedHashMap<String, Object>> cadastroOperadores(@RequestBody @Valid OperadorDto operadorDto){
 		return service.cadastraOperadores(operadorDto);
 	}
 	

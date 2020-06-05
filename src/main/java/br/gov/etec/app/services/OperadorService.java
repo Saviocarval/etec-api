@@ -68,7 +68,7 @@ public class OperadorService {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			if(passwordEncoder.matches(operadorDto.getSenha(), operador.getSenha())) {
 				map.put("menseger", true);
-				return ResponseEntity.status(HttpStatus.OK).build();
+				return ResponseEntity.status(HttpStatus.OK).body(map);
 			}
 			
 			map.put("messeger", false);
