@@ -24,9 +24,10 @@ public class OperadorService {
 		operador = repository.findAll();
 		
 		List<LinkedHashMap<String, Object>> listaOperadores = new ArrayList<>();
-		LinkedHashMap<String, Object> op = new LinkedHashMap<>();
+		
 		
 		for (Operador operador2 : operador) {
+			LinkedHashMap<String, Object> op = new LinkedHashMap<>();
 			op.put("id", operador2.getId());
 			op.put("nome", operador2.getNome());
 			op.put("email", operador2.getEmail());

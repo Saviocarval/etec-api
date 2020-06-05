@@ -27,9 +27,11 @@ public class AlunoService {
 	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarAlunos(){
 		List<Aluno> aluno = new ArrayList<>();
 		aluno = repository.findAll();
-		List<LinkedHashMap<String, Object>> listaAlunos = new ArrayList<>();
-		LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+		
+		List<LinkedHashMap<String, Object>> listaAlunos = new  ArrayList<>();
+		
 		for (Aluno aluno2 : aluno) {
+			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
 			al.put("id", aluno2.getId());
 			al.put("nome", aluno2.getNome());
 			al.put("rg", aluno2.getRg());
@@ -37,8 +39,13 @@ public class AlunoService {
 			al.put("email", aluno2.getEmail());
 			al.put("data_nasc", aluno2.getData_nasc());
 			al.put("curso", aluno2.getCurso().getNome());
-			listaAlunos.add(al);			
+			System.out.println(al);
+			listaAlunos.add(al);				
+			
 		}
+		
+		
+				
 		repository.flush();
 		return ResponseEntity.ok(listaAlunos);
 	}
