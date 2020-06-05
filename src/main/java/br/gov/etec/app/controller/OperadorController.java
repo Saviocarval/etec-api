@@ -30,12 +30,12 @@ public class OperadorController {
 	
 	@PostMapping
 	public ResponseEntity<LinkedHashMap<String, Object>> listarOperadores(@RequestBody @Valid OperadorDto operadorDto){
-		return service.listarOperadores(operadorDto);
+		return service.cadastraOperadores(operadorDto);
 	}
 	
 	@PostMapping(value = "/login")
 	public ResponseEntity<LinkedHashMap<String, String>> logar(@RequestBody OperadorDto operadorDto){
-		return service.login(operadorDto);
+		return service.loginOperadores(operadorDto);
 	}
 	
 	

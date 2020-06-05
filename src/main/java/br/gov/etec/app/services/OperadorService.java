@@ -37,7 +37,7 @@ public class OperadorService {
 		return ResponseEntity.ok(listaOperadores);		
 	}
 	
-	public ResponseEntity<LinkedHashMap<String, Object>> listarOperadores(OperadorDto operadorDto){
+	public ResponseEntity<LinkedHashMap<String, Object>> cadastraOperadores(OperadorDto operadorDto){
 		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String senhaEm = passwordEncoder.encode(operadorDto.getSenha());
@@ -59,7 +59,7 @@ public class OperadorService {
 		return ResponseEntity.status(HttpStatus.CREATED).body(map);
 	}
 	
-	public ResponseEntity<LinkedHashMap<String, String>> login(OperadorDto operadorDto) {
+	public ResponseEntity<LinkedHashMap<String, String>> loginOperadores(OperadorDto operadorDto) {
 		Operador operador = repository.findByEmail(operadorDto.getEmail());
 		if(operador != null) {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
