@@ -1,9 +1,6 @@
 package br.gov.etec.app.controller;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,29 +11,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.etec.app.dtos.AlunoDto;
+import br.gov.etec.app.dtos.DocumentoDto;
+import br.gov.etec.app.entity.Documento;
 import br.gov.etec.app.response.Response;
-import br.gov.etec.app.services.AlunoService;
+import br.gov.etec.app.services.DocumentoService;
 
 @RestController
-@RequestMapping("/api/aluno")
-public class AlunoController {
+@RequestMapping(value = "/api/documentos")
+public class DocumentoController {
 	
-		
 	@Autowired
-	AlunoService service;
+	private DocumentoService documentoService;
 	
-	
-	@GetMapping()
-	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listaAlunos( ){		
-		return service.listarAlunos();
-	}
-		
-	@PostMapping()
-	public ResponseEntity<Response<LinkedHashMap<String, Object>>> cadAluno(@RequestBody @Valid AlunoDto alunoDto,BindingResult result) {
-		return service.incluirAluno(alunoDto,result);			 
+	@GetMapping
+	public ResponseEntity<Response<List<Documento>>>listar(){
+		return documentoService.listar();
 	}
 	
+	@PostMapping
+	public ResponseEntity<Response<Documento>> cadastar(@RequestBody DocumentoDto documentoDto, BindingResult result){
+		return documentoService.cadastrar(documentoDto,result);
+	}
 	
-		
 }
