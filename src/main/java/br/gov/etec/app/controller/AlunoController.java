@@ -27,7 +27,7 @@ public class AlunoController {
 	AlunoService service;
 	
 	@GetMapping()
-	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listaAlunos(){		
+	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listaAlunos( ){		
 		return service.listarAlunos();
 	}
 		
