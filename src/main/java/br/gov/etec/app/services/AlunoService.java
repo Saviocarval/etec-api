@@ -1,5 +1,6 @@
 package br.gov.etec.app.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,15 +8,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
-
+import br.gov.etec.app.authentication.PerfilEnum;
 import br.gov.etec.app.dtos.AlunoDto;
 import br.gov.etec.app.entity.Aluno;
 import br.gov.etec.app.entity.Curso;
+import br.gov.etec.app.entity.Login;
 import br.gov.etec.app.repository.AlunoRepository;
 import br.gov.etec.app.repository.CursoReposity;
+import br.gov.etec.app.response.Response;
+import br.gov.etec.app.security.senhaUtils;
 
 @Service
 public class AlunoService {
@@ -24,51 +29,96 @@ public class AlunoService {
 	@Autowired
 	private CursoReposity repositoryCurso;
 	
-	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarAlunos(){
+	@Autowired
+	LoginService loginService;
+	
+	
+	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listarAlunos(){
 		List<Aluno> aluno = new ArrayList<>();
 		aluno = repository.findAll();
 		
-		List<LinkedHashMap<String, Object>> listaAlunos = new  ArrayList<>();
+		Response<List<LinkedHashMap<String,Object>>> response = new Response<>();
+		
+		List<LinkedHashMap<String,Object>> listaAlunos = new  ArrayList<>();
 		
 		for (Aluno aluno2 : aluno) {
+			SimpleDateFormat d = new SimpleDateFormat();
 			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
 			al.put("id", aluno2.getId());
 			al.put("nome", aluno2.getNome());
 			al.put("rg", aluno2.getRg());
 			al.put("cpf", aluno2.getCpf());
-			al.put("email", aluno2.getEmail());
-			al.put("data_nasc", aluno2.getData_nasc());
+			al.put("email", aluno2.getLogin().getEmail());
+			al.put("data_nasc", d.format(aluno2.getData_nasc()));
 			al.put("curso", aluno2.getCurso().getNome());
-			System.out.println(al);
-			listaAlunos.add(al);				
-			
+			listaAlunos.add(al);					
 		}
 		
-		
-				
+		response.setData(listaAlunos);
+						
 		repository.flush();
-		return ResponseEntity.ok(listaAlunos);
+		return ResponseEntity.ok(response);
 	}
 	
-	public ResponseEntity<LinkedHashMap<String, Object>> incluirAluno(AlunoDto alunoDto){
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String senha = passwordEncoder.encode(alunoDto.getSenha());
+	
+	public ResponseEntity<Response<LinkedHashMap<String, Object>>> incluirAluno(AlunoDto alunoDto,BindingResult result){
+		
+		if(result.hasErrors()) {
+			return errorResponse(result);			
+		}
+				
+		String senha = senhaUtils.gerarBCrypt(alunoDto.getSenha());
 		alunoDto.setSenha(senha);
+		
 		Curso curso = repositoryCurso.findById(alunoDto.getId_curso());
-		Aluno aluno = repository.save(alunoDto.transformaAlunoDto(curso));
+		
+		PerfilEnum perfil = PerfilEnum.ROLE_USUARIO;
+		Login login = new Login();
+		login.setSenha(senha);
+		login.setEmail(alunoDto.getEmail());
+		login.setPerfil(perfil);
+		
+		Login logi = loginService.save(login);
+		
+		
+		Aluno aluno = repository.save(alunoDto.transformaAlunoDto(curso,logi));
+		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 		
-		map.put("messeger", "Aluno criado com sucesso!");
-		map.put("Id",aluno.getId());
-		map.put("Nome",aluno.getNome());
-		map.put("RG",aluno.getRg());
-		map.put("CPF",aluno.getCpf());
-		map.put("Email",aluno.getEmail());
-		map.put("Data_Nascimento",aluno.getData_nasc());
+	
+		
+		map.put("id",aluno.getId());
+		map.put("nome",aluno.getNome());
+		map.put("rg",aluno.getRg());
+		map.put("cpf",aluno.getCpf());
+		map.put("email",aluno.getLogin().getEmail());
+		map.put("data_nasc", aluno.getData_nasc());
+		map.put("curso", aluno.getCurso().getNome());
+		
+		Response<LinkedHashMap<String, Object>> response = new Response<>();
+		response.setData(map);
 		
 		repository.flush();				
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(map);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 			
 	}
+	
+	private ResponseEntity<Response<LinkedHashMap<String, Object>>> errorResponse(BindingResult result) {
+		
+		Response<LinkedHashMap<String, Object>> response = new Response<>();
+		
+		for (int i = 0; i < result.getErrorCount(); i++) {
+			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+			ObjectError erro = result.getFieldErrors().get(i);
+			al.put("defaultMessage", erro.getDefaultMessage());
+			al.put("field", result.getFieldErrors().get(i).getField());
+			al.put("objectName", erro.getObjectName());				
+			
+			response.getErrors().add(al);
+		}
+		
+		return ResponseEntity.badRequest().body(response);
+	}
+	
 }

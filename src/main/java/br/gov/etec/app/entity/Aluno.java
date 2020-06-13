@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="tb_aluno")
 public class Aluno {
@@ -18,40 +19,35 @@ public class Aluno {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO )
 	private long id;
-	@Column
+	@Column(name = "nome", nullable = false,length = 50)
 	private String nome;
-	@Column
+	@Column(name = "rg", nullable = false, length = 12)
 	private String rg;
-	@Column(unique = true)
-	private String cpf;
-	@Column
-	private String email;
-	@Column
+	@Column(name = "cpf",nullable = false, length = 14,unique = true)
+	private String cpf;	
+	@Column(name = "dt_nascimento", nullable = false)
 	private Date data_nasc;
-	@Column
-	private String senha;
 	@ManyToOne
 	@JoinColumn(name = "curso",referencedColumnName = "id",nullable = false)
 	private Curso curso;
+	@ManyToOne
+	@JoinColumn(name = "login",referencedColumnName = "id",nullable = false)
+	private Login login;
 		
 	
 	public Aluno() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public Aluno(String nome, String rg, String cpf, String email, Date data_nasc, long id_curso, String senha,
-			Curso curso) {
+		
+	public Aluno(String nome, String rg, String cpf, Date data_nasc, Curso curso, Login login) {
 		super();
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
-		this.email = email;
 		this.data_nasc = data_nasc;
-		this.senha = senha;
 		this.curso = curso;
+		this.login = login;
 	}
-
 
 	public long getId() {
 		return id;
@@ -77,13 +73,7 @@ public class Aluno {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
+		
 	public Date getData_nasc() {
 		return data_nasc;
 	}
@@ -91,15 +81,6 @@ public class Aluno {
 	public void setData_nasc(Date data_nasc) {
 		this.data_nasc = data_nasc;
 	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	
 	public Curso getCurso() {
 		return curso;
@@ -111,11 +92,14 @@ public class Aluno {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Aluno: id=" + id + ", nome=" + nome + ", rg=" + rg + ", cpf=" + cpf + ", email=" + email+ ", data_nasc=" + data_nasc + ",";
+	public Login getLogin() {
+		return login;
 	}
-	
-	
+
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
 	
 }

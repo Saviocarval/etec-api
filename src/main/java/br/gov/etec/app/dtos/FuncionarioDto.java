@@ -2,14 +2,12 @@ package br.gov.etec.app.dtos;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
-
-import br.gov.etec.app.entity.Operador;
+import br.gov.etec.app.entity.Funcionario;
+import br.gov.etec.app.entity.Login;
 
 @SuppressWarnings("deprecation")
-public class OperadorDto implements Serializable {
+public class FuncionarioDto implements Serializable {
 
 	/**
 	 * 
@@ -20,12 +18,10 @@ public class OperadorDto implements Serializable {
 	private String nome;
 	@NotBlank
 	private String email;
-	@NotNull
-	private int matricula;
 	@NotBlank
 	private String senha;
 	
-	public OperadorDto() {
+	public FuncionarioDto() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -45,14 +41,6 @@ public class OperadorDto implements Serializable {
 		this.email = email;
 	}
 
-	public int getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -61,8 +49,8 @@ public class OperadorDto implements Serializable {
 		this.senha = senha;
 	}
 	
-	public Operador tranformaLoginOperadorDto() {
-		return new Operador(nome,email,matricula,senha);
+	public Funcionario tranformaOperadorDto(Login login) {
+		return new Funcionario(nome,login);
 	}
 
 

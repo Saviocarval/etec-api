@@ -10,43 +10,42 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import br.gov.etec.app.dtos.CursoDto;
-import br.gov.etec.app.entity.Curso;
-import br.gov.etec.app.repository.CursoReposity;
+import br.gov.etec.app.dtos.EventoDto;
+import br.gov.etec.app.entity.Evento;
+import br.gov.etec.app.repository.EventoRepository;
 import br.gov.etec.app.response.Response;
 
 @Service
-public class CursoService {
-	
+public class EventoService {
+
 	@Autowired
-	private CursoReposity repository;
+	private EventoRepository repository;
 	
-	public ResponseEntity<Response<List<Curso>>> listarCursos(){		
-		List<Curso> curso = repository.findAll();
-		Response<List<Curso>> response = new Response<List<Curso>>();
-		response.setData(curso);
+	public ResponseEntity<Response<List<Evento>>> consultar() {
+		List<Evento> eventos = repository.findAll();
+		Response<List<Evento>> response = new Response<>();
+		response.setData(eventos);
 		repository.flush();
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	public ResponseEntity<Response<Curso>> incluirCurso(CursoDto cursoDto, BindingResult result){
-					
+	
+	public ResponseEntity<Response<Evento>> cadastrar(EventoDto dto,BindingResult result) {
 		if(result.hasErrors()) {							
 			return errorResponse(result);
 		}
 		
-		Curso curso = repository.save(cursoDto.transformaCursoDto());		
-		Response<Curso> response = new Response<Curso>();		
-		response.setData(curso);
-		repository.flush();
+		Evento evento = repository.save(dto.tranformaEventoDto());
+		Response<Evento> response = new Response<>();
+		response.setData(evento);
 		
+		repository.flush();
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
-	
-	private ResponseEntity<Response<Curso>> errorResponse(BindingResult result) {
+	private ResponseEntity<Response<Evento>> errorResponse(BindingResult result) {
 		
-		Response<Curso> response = new Response<Curso>();
+		Response<Evento> response = new Response<>();
 		
 		for (int i = 0; i < result.getErrorCount(); i++) {
 			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
@@ -60,5 +59,7 @@ public class CursoService {
 		
 		return ResponseEntity.badRequest().body(response);
 	}
-
+	
+	
+	
 }

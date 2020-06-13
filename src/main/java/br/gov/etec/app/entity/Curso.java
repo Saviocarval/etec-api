@@ -9,17 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "curso")
+@Table(name = "tb_curso")
 public class Curso {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column
+	@Column(name = "nome",nullable = false, length = 55, unique = true)
 	private String nome;
-	@Column
+	@Column(name = "descricao", nullable = false, length = 255)
 	private String descricao;
 		
+	
 	public Curso() {
 		
 	}
@@ -29,8 +30,7 @@ public class Curso {
 		this.nome = nome;
 		this.descricao = descricao;
 	}
-	
-	
+		
 	
 	public long getId() {
 		return id;

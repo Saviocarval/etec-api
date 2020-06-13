@@ -7,37 +7,33 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.etec.app.dtos.OperadorDto;
-import br.gov.etec.app.services.OperadorService;
+import br.gov.etec.app.dtos.FuncionarioDto;
+import br.gov.etec.app.response.Response;
+import br.gov.etec.app.services.FuncionarioService;
 
 @RestController
 @RequestMapping("/api/operador")
-public class OperadorController {
+public class FuncionarioController {
 	
 	@Autowired
-	OperadorService service;
+	FuncionarioService service;
 	
 	@GetMapping
-	public ResponseEntity<List<LinkedHashMap<String, Object>>> listarOperadores(){
+	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listarOperadores(){
 		return service.listarOperadores();
 	}
 	
 	@PostMapping
-	public ResponseEntity<LinkedHashMap<String, Object>> cadastroOperadores(@RequestBody @Valid OperadorDto operadorDto){
-		return service.cadastraOperadores(operadorDto);
+	public ResponseEntity<Response<LinkedHashMap<String, Object>>> cadastroOperadores(@RequestBody @Valid FuncionarioDto funcionarioDto, BindingResult result){
+		return service.cadastraOperadores(funcionarioDto,result);
 	}
-	
-	@PostMapping(value = "/login")
-	public ResponseEntity<LinkedHashMap<String, Object>> logar(@RequestBody OperadorDto operadorDto){
-		return service.loginOperadores(operadorDto);
-	}
-	
 	
 
 }

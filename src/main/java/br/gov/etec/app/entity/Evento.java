@@ -16,20 +16,31 @@ public class Evento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column
+	@Column(name = "nome",nullable = false, length = 50)
 	private String nome;
-	@Column
+	@Column(name = "descricao",nullable = false, length = 100)
 	private String descricao;
-	@Column
+	@Column(name = "status",nullable = false, length = 1)
 	private int status;
-	@Column(name = "data_inicio")
+	@Column(name = "data_inicio",nullable = false)
 	private Date dataInicio;
-	@Column(name = "data_fim")
+	@Column(name = "data_fim", nullable = false)
 	private Date dataFim;
 	
 	public Evento() {
-		// TODO Auto-generated constructor stub
 	}
+		
+
+	public Evento(String nome, String descricao, int status, Date dataInicio, Date dataFim) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.status = status;
+		this.dataInicio = dataInicio;
+		this.dataFim = dataFim;
+	}
+
+
 
 	public long getId() {
 		return id;

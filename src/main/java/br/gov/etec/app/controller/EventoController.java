@@ -13,29 +13,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import br.gov.etec.app.dtos.CursoDto;
-import br.gov.etec.app.entity.Curso;
+import br.gov.etec.app.dtos.EventoDto;
+import br.gov.etec.app.entity.Evento;
 import br.gov.etec.app.response.Response;
-import br.gov.etec.app.services.CursoService;
+import br.gov.etec.app.services.EventoService;
 
 @RestController
-@RequestMapping("/api/curso")
-public class CursoController {
+@RequestMapping("/api/evento")
+public class EventoController {
 	
 	@Autowired
-	CursoService service;
+	EventoService service;
+	
 	
 	@GetMapping
-	public ResponseEntity<Response<List<Curso>>>  listaCursos() {
-		return service.listarCursos();		
+	public ResponseEntity<Response<List<Evento>>> consultar(){
+		return service.consultar();
 	}
-				
+	
 	@PostMapping
-	public ResponseEntity<Response<Curso>> cadastrarCurso(@RequestBody @Valid CursoDto cursoDto, BindingResult result){
-		return service.incluirCurso(cursoDto, result);
+	public ResponseEntity<Response<Evento>> cadastrar(@RequestBody @Valid EventoDto dto,BindingResult result) {
+		return service.cadastrar(dto,result);
 	}
 	
 	
 	
+
 }
