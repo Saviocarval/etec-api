@@ -129,15 +129,50 @@ public class AlunoService {
 	public ResponseEntity<Response<Aluno>> atualizar(long id, AlunoDto alunoDto){
 		Response<Aluno> response = new Response<>();
 		Aluno alunoData = repository.findById(id);
-		
 		if(alunoData == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+			al.put("defaultMessage", "Aluno não localizado");
+			response.getErrors().add(al);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 		
-		alunoData.setNome(alunoDto.getNome());
-		alunoData.setCpf(alunoDto.getCpf());
+		if(alunoDto.getCpf() != null && alunoDto.getCpf() != "" ) {
+			alunoData.setCpf(alunoDto.getCpf());
+		}
 		
-		Aluno _aluno = repository.saveAndFlush(alunoData);
+		if(alunoDto.getData_nasc() != null) {
+			
+			alunoData.setData_nasc(alunoDto.getData_nasc());
+		}
+		
+		if(alunoDto.getEmail() != null) {
+			alunoData.getLogin().setEmail(alunoDto.getEmail());
+		}
+		
+		if(alunoDto.getId_curso() != 0L ){
+			Curso curso = repositoryCurso.findById(alunoDto.getId_curso());
+			alunoData.setCurso(curso);
+		}
+		
+		if(alunoDto.getNome()!= null) {
+			alunoData.setNome(alunoDto.getNome());
+		}
+		
+		if(alunoDto.getRg() != null) {
+			alunoData.setRg(alunoDto.getRg());
+		}
+		
+		if(alunoDto.getSenha() != null) {
+			String senha = senhaUtils.gerarBCrypt(alunoDto.getSenha());
+			alunoData.getLogin().setSenha(senha);
+		}
+		
+		if(alunoDto.getMatricula() != 0L) {
+			alunoData.setMatricula(alunoDto.getMatricula());
+		}
+		
+		
+		Aluno _aluno = repository.save(alunoData);
 		response.setData(_aluno);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 		

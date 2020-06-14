@@ -18,7 +18,7 @@ public class Login {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", nullable = false, unique = true, length = 55)
 	private String email;
 	@Column(name = "senha", nullable = false, length = 500)
 	private String senha; 

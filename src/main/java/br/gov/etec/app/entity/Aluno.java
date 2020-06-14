@@ -25,6 +25,8 @@ public class Aluno {
 	private String rg;
 	@Column(name = "cpf",nullable = false, length = 14,unique = true)
 	private String cpf;	
+	@Column(name = "matricula", unique = true, nullable = false, length = 12)
+	private long matricula;
 	@Column(name = "dt_nascimento", nullable = false)
 	private Date data_nasc;
 	@ManyToOne
@@ -39,14 +41,16 @@ public class Aluno {
 		// TODO Auto-generated constructor stub
 	}
 		
-	public Aluno(String nome, String rg, String cpf, Date data_nasc, Curso curso, Login login) {
+	public Aluno(String nome, String rg, String cpf,long matricula, Date data_nasc, Curso curso, Login login) {
 		super();
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
+		this.matricula = matricula;
 		this.data_nasc = data_nasc;
 		this.curso = curso;
 		this.login = login;
+		
 	}
 
 	public long getId() {
@@ -101,5 +105,12 @@ public class Aluno {
 		this.login = login;
 	}
 
-	
+	public long getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(long matricula) {
+		this.matricula = matricula;
+	}
+		
 }

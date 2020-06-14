@@ -29,6 +29,8 @@ public class AlunoDto implements Serializable {
 	private String rg;
 	@NotBlank
 	private String cpf;
+	@NotNull
+	private long matricula;
 	@NotBlank
 	@Email
 	private String email;
@@ -99,10 +101,23 @@ public class AlunoDto implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+
+	public long getMatricula() {
+		return matricula;
+	}
+
+
+	public void setMatricula(long matricula) {
+		this.matricula = matricula;
+	}
+
 
 	public Aluno transformaAlunoDto(Curso curso,Login login) {
-		return new Aluno(nome,rg,cpf,data_nasc,curso,login);
+		return new Aluno(nome,rg,cpf,matricula,data_nasc,curso,login);
 	}
-		
+	
+	
+	
 
 }
