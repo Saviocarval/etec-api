@@ -33,7 +33,7 @@ public class AlunoService {
 	LoginService loginService;
 	
 	
-	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listarAlunos(){
+	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listar(){
 		List<Aluno> aluno = new ArrayList<>();
 		aluno = repository.findAll();
 		
@@ -61,7 +61,7 @@ public class AlunoService {
 	}
 	
 	
-	public ResponseEntity<Response<LinkedHashMap<String, Object>>> incluirAluno(AlunoDto alunoDto,BindingResult result){
+	public ResponseEntity<Response<LinkedHashMap<String, Object>>> cadastrar(AlunoDto alunoDto,BindingResult result){
 		
 		if(result.hasErrors()) {
 			return errorResponse(result);			
@@ -86,13 +86,14 @@ public class AlunoService {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 		
 	
+		SimpleDateFormat d = new SimpleDateFormat();
 		
 		map.put("id",aluno.getId());
 		map.put("nome",aluno.getNome());
 		map.put("rg",aluno.getRg());
 		map.put("cpf",aluno.getCpf());
 		map.put("email",aluno.getLogin().getEmail());
-		map.put("data_nasc", aluno.getData_nasc());
+		map.put("data_nasc",d.format(aluno.getData_nasc()));
 		map.put("curso", aluno.getCurso().getNome());
 		
 		Response<LinkedHashMap<String, Object>> response = new Response<>();
@@ -102,6 +103,24 @@ public class AlunoService {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 			
+	}
+	
+	
+	public ResponseEntity<Response<Aluno>> litarPorId(long id){
+		Response<Aluno> response = new Response<>();
+		
+		Aluno aluno = repository.findById(id);
+		
+		if(aluno == null) {
+			LinkedHashMap<String, Object> obErro = new LinkedHashMap<>();			
+			obErro.put("defaultMessage", "aluno não localizado");			
+			response.getErrors().add(obErro);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+		
+		response.setData(aluno);
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	private ResponseEntity<Response<LinkedHashMap<String, Object>>> errorResponse(BindingResult result) {
