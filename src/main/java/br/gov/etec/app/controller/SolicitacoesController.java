@@ -1,5 +1,6 @@
 package br.gov.etec.app.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,26 +14,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.etec.app.dtos.DocumentoDto;
-import br.gov.etec.app.entity.Documento;
+import br.gov.etec.app.dtos.SolicitacoesDto;
+import br.gov.etec.app.entity.Solicitacoes;
 import br.gov.etec.app.response.Response;
-import br.gov.etec.app.services.DocumentoService;
+import br.gov.etec.app.services.SolicitacoesService;
 
 @RestController
-@RequestMapping(value = "/api/documentos")
-public class DocumentoController {
+@RequestMapping("/api/solicitacoes")
+public class SolicitacoesController {
 	
 	@Autowired
-	private DocumentoService documentoService;
+	private SolicitacoesService service;
 	
 	@GetMapping
-	public ResponseEntity<Response<List<Documento>>>listar(){
-		return documentoService.listar();
+	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listar(){
+		return service.litar();
 	}
+	
 	
 	@PostMapping
-	public ResponseEntity<Response<Documento>> cadastar(@RequestBody @Valid DocumentoDto documentoDto, BindingResult result){
-		return documentoService.cadastrar(documentoDto,result);
+	public ResponseEntity<Response<Solicitacoes>> cadastro(@RequestBody @Valid SolicitacoesDto dto, BindingResult result ){
+		return service.cadastrar(dto, result);
 	}
-	
+
 }

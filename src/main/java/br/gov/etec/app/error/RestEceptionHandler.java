@@ -1,5 +1,6 @@
 package br.gov.etec.app.error;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import org.hibernate.exception.ConstraintViolationException;
@@ -9,15 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import br.gov.etec.app.response.Response;
 
 @ControllerAdvice
-public class RestEceptionHandler{
+public class RestEceptionHandler implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8636625667447770653L;
+
 	@ExceptionHandler({SQLException.class, DataIntegrityViolationException.class, ConstraintViolationException.class})
 	protected ResponseEntity<Response<LinkedHashMap<String, Object>>> handleSqlExeption(ConstraintViolationException ex){
 		
@@ -57,6 +64,19 @@ public class RestEceptionHandler{
 				
 		al.put("defaultMessage",ex.getMessage());
 		al.put("type",ex.getTargetType());
+		response.getErrors().add(al);
+				
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
+	
+	@ExceptionHandler(JsonParseException.class)
+	protected ResponseEntity<Response<LinkedHashMap<String, Object>>> handleJsonParseException(JsonParseException ex) {
+		Response<LinkedHashMap<String, Object>> response = new Response<>();
+		
+		LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+		
+		
+		al.put("defaultMessage",ex.getOriginalMessage());
 		response.getErrors().add(al);
 				
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);

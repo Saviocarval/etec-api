@@ -1,10 +1,16 @@
 package br.gov.etec.app.response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class Response<T> {
+public class Response<T> implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5287959098087149801L;
 	
 	private T data;
 	private List<LinkedHashMap<String, Object>> errors;	

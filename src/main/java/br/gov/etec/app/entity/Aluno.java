@@ -28,10 +28,10 @@ public class Aluno {
 	@Column(name = "dt_nascimento", nullable = false)
 	private Date data_nasc;
 	@ManyToOne
-	@JoinColumn(name = "curso",referencedColumnName = "id",nullable = false)
+	@JoinColumn(name = "curso_id",referencedColumnName = "id",nullable = false)
 	private Curso curso;
 	@ManyToOne
-	@JoinColumn(name = "login",referencedColumnName = "id",nullable = false)
+	@JoinColumn(name = "login_id",referencedColumnName = "id",nullable = false)
 	private Login login;
 		
 	

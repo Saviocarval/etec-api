@@ -3,10 +3,14 @@ package br.gov.etec.app.dtos;
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.gov.etec.app.entity.Funcionario;
 import br.gov.etec.app.entity.Login;
 
 @SuppressWarnings("deprecation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FuncionarioDto implements Serializable {
 
 	/**

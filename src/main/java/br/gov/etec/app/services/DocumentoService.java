@@ -24,6 +24,8 @@ public class DocumentoService {
 		Response<List<Documento>> response = new Response<>();
 		List<Documento> documentos =  repository.findAll();
 		
+		repository.findAll();
+		
 		response.setData(documentos);		
 		return ResponseEntity.ok(response);			
 	}

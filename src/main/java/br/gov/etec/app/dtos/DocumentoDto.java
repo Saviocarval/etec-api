@@ -2,9 +2,12 @@ package br.gov.etec.app.dtos;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.gov.etec.app.entity.Documento;
 
 @SuppressWarnings("deprecation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DocumentoDto {
 	
 	@NotBlank

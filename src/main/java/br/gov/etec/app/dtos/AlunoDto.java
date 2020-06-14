@@ -8,10 +8,13 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.gov.etec.app.entity.Aluno;
 import br.gov.etec.app.entity.Curso;
 import br.gov.etec.app.entity.Login;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("deprecation")
 public class AlunoDto implements Serializable {
 

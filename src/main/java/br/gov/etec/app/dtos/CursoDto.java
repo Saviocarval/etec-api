@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.gov.etec.app.entity.Curso;
 
 @SuppressWarnings("deprecation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CursoDto implements Serializable {
 	
 	/**

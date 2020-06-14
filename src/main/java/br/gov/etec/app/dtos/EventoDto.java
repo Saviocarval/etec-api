@@ -6,9 +6,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.gov.etec.app.entity.Evento;
 
 @SuppressWarnings("deprecation")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EventoDto {
 	
 	@NotBlank
