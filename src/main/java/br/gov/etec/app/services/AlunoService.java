@@ -26,16 +26,18 @@ import br.gov.etec.app.security.senhaUtils;
 public class AlunoService {
 	@Autowired
 	private AlunoRepository repository;
+	
 	@Autowired
 	private CursoReposity repositoryCurso;
 	
 	@Autowired
-	LoginService loginService;
+	LoginService loginService;	
+	
 	
 	
 	public ResponseEntity<Response<List<LinkedHashMap<String,Object>>>> listar(){
 		List<Aluno> aluno = new ArrayList<>();
-		aluno = repository.findAll();
+		aluno = repository.findAll();	
 		
 		Response<List<LinkedHashMap<String,Object>>> response = new Response<>();
 		
@@ -59,7 +61,7 @@ public class AlunoService {
 		repository.flush();
 		return ResponseEntity.ok(response);
 	}
-	
+
 	
 	public ResponseEntity<Response<LinkedHashMap<String, Object>>> cadastrar(AlunoDto alunoDto,BindingResult result){
 		
@@ -122,6 +124,25 @@ public class AlunoService {
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	
+	public ResponseEntity<Response<Aluno>> atualizar(long id, AlunoDto alunoDto){
+		Response<Aluno> response = new Response<>();
+		Aluno alunoData = repository.findById(id);
+		
+		if(alunoData == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		alunoData.setNome(alunoDto.getNome());
+		alunoData.setCpf(alunoDto.getCpf());
+		
+		Aluno _aluno = repository.saveAndFlush(alunoData);
+		response.setData(_aluno);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+		
+	}
+	
 	
 	private ResponseEntity<Response<LinkedHashMap<String, Object>>> errorResponse(BindingResult result) {
 		
