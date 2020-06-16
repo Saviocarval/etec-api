@@ -133,7 +133,7 @@ public class AlunoService {
 			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
 			al.put("defaultMessage", "Aluno não localizado");
 			response.getErrors().add(al);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
 		
 		if(alunoDto.getCpf() != null && alunoDto.getCpf() != "" ) {
@@ -178,6 +178,24 @@ public class AlunoService {
 		
 	}
 	
+	 
+	public ResponseEntity<Response<Aluno>> deletar(long id) {
+		Response<Aluno> response = new Response<>();
+		Aluno aluno = repository.findById(id);
+		repository.flush();
+		
+		if(aluno == null) {
+			LinkedHashMap<String, Object> al = new LinkedHashMap<>();
+			al.put("defaultMessage", "aluno não localizado");
+			response.getErrors().add(al);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+		
+		repository.delete(aluno);
+		repository.flush();
+		response.setData(aluno);
+		return ResponseEntity.noContent().build();
+	}
 	
 	private ResponseEntity<Response<LinkedHashMap<String, Object>>> errorResponse(BindingResult result) {
 		

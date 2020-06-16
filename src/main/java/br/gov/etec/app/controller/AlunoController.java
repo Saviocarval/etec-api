@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,12 @@ public class AlunoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Response<Aluno>> atualizar(@PathVariable("id") long id, @RequestBody  AlunoDto alunoDto){
 		return service.atualizar(id,alunoDto);
+	}
+	
+	@ApiOperation(value = "Deletar aluno passando por paramentro o ID")
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Response<Aluno>> deletar(@PathVariable long id){
+		 return service.deletar(id);
 	}
 	
 		
